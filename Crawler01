@@ -1,24 +1,26 @@
-import json
-from pymongo import MongoClient
+#!/usr/bin/env bash
 
-# conexión  a la base
-client = MongoClient('localhost', 27017)
+bin = ´which "$0"´
+bin = ´dirname "${bin}"´
+bin = ´cd "$bin"; pwd´
 
-#Creacion de la base
-db = client['lantia']
-collection_currency = db['patentes']
-# Consultar un documento
-consulta = collection_currency.find_one()
-print(consulta)
 
-client.close()
-# lectura de archivo json
-with open('/home/david/Descargas/patents.json') as f:
-    file_data = json.load(f)
+DEFAULT_LIBEXEC_DIR = "$bin"/../libexec
+HADOOP_LIBEXEC_DIR = ${HADOOP_LIBEXEC_DIR:-$DEFAULT_LIBEXEC_DIR}
+if [ -e "${HADOOP_LIBEXEC_DIR}/hadoop-config.sh" ]; then
+    . ${HADOOP_LIBEXEC_DIR}/hadoop-config.sh
+elif [ -e "${HADOOP_COMMON_HOME}/libexec/hadoop-config.sh" ]; then    
+    . "HADOOP_COMMON_HOME"/libexec/hadoop-config.sh
+elif [ -e "${HADOOP_HOME}/libexec/hadoop-config.sh" ]; then    
+    . "HADOOP_HOME"/libexec/hadoop-config.sh
+else
+    echo "Hadoop common not found"
+    exit
+fi
 
-# carga de archivo json
-collection_currency.insert_one(file_data)
 
-# Consultar un documento
-consulta = collection_currency.find_one()
-print(consulta)
+
+
+
+
+
