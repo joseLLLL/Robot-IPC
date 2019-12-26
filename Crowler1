@@ -1,0 +1,24 @@
+import json
+from pymongo import MongoClient
+
+# conexión  a la base
+client = MongoClient('localhost', 27017)
+
+#Creacion de la base
+db = client['lantia']
+collection_currency = db['patentes']
+# Consultar un documento
+consulta = collection_currency.find_one()
+print(consulta)
+
+client.close()
+# lectura de archivo json
+with open('/home/david/Descargas/patents.json') as f:
+    file_data = json.load(f)
+
+# carga de archivo json
+collection_currency.insert_one(file_data)
+
+# Consultar un documento
+consulta = collection_currency.find_one()
+print(consulta)
